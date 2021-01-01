@@ -1,7 +1,7 @@
-import React from "react"
+import Player from "./Player"
 import Card from "./Card"
 
-export default class CurrentPlayer extends React.Component {
+export default class CurrentPlayer extends Player {
     constructor() {
         super();
         this.state = {}
@@ -13,13 +13,11 @@ export default class CurrentPlayer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id={this.props.id} style={{height: "300px", border: "2px solid white"}}>
                 <div>PHOTO</div>
                 <p>{this.props.name}</p>
                 <div style={{"display": "flex"}}>
-                {/* {this.props.cards.map(card => {
-                    return <Card key={card} state="hide" style={{"margin": "0 0.5rem"}}></Card>
-                })} */}
+                {/* {this.props.cards.map(card => console.log(card))} */}
                 </div>
             </div>
         )

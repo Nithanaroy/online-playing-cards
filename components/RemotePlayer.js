@@ -1,6 +1,7 @@
 import React from "react"
+import Player from "./Player";
 
-export default class RemotePlayer extends React.Component {
+export default class RemotePlayer extends Player {
     constructor() {
         super();
         this.state = {}

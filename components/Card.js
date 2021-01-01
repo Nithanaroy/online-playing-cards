@@ -45,46 +45,22 @@ export default class Card extends React.Component {
         this.setState({ face: newFaceState })
     }
 
-    passCardRef = (ev) => {
-        ev.dataTransfer.setData('text', ev.target.id);
-        ev.dataTransfer.effectAllowed = "move";
-        // ev.dataTransfer.setDragImage(new Image(), 0, 0);
-        return false;
-    }
-
-    allowDrop = (ev) => {
-        // Cards can be stacked i.e. dropped over other cards
-        ev.preventDefault();
-        ev.dataTransfer.dropEffect = "move"
-    }
-
-    startDrag = (ev) => {
-        // Credits to https://javascript.info/mouse-drag-and-drop#correct-positioning for the idea
-        this.shiftX = ev.clientX - ev.currentTarget.getBoundingClientRect().left;
-        this.shiftY = ev.clientY - ev.currentTarget.getBoundingClientRect().top;
-    }
-
-    updateCardLocation = (ev) => {
-        ev.currentTarget.style.left = (ev.clientX - this.shiftX) + "px"
-        ev.currentTarget.style.top = (ev.clientY - this.shiftY) + "px"
-    }
-
     render() {
-        return (
-            // <Draggable onStart={this.props.handleStart} onDrag={this.props.handleDrag} onStop={this.props.onDragStop}>
-            <div draggable={this.props.draggable || "true"} onDragStart={this.passCardRef}
-                onMouseDown={this.startDrag} onDragEnd={this.updateCardLocation}
-                onDragOver={this.allowDrop}
-                id={this.props.id} style={{ ...this.props.style }}>
+        const card = (
+            <div id={this.props.id} style={{ ...this.props.style }}>
                 <a style={{
-                    display: "block",
-                    "backgroundPosition": this.state.face === "show" ? this.cardUI : this.genericHiddenCard,
-                    "backgroundImage": 'url("/deck.png")', "width": "150px", "height": "202px"
+                    display: "block", "backgroundImage": 'url("/deck.png")', "width": "150px", "height": "202px",
+                    "backgroundPosition": this.state.face === "show" ? this.cardUI : this.genericHiddenCard
                 }}></a>
                 <button id="flipCardButton" onClick={this.flip} style={{ "display": "block", position: "absolute", bottom: "10px", left: "60px" }}>Flip</button>
             </div>
-            // </Draggable>
         )
+        const draggableCard = (
+            <Draggable onStart={this.props.handleStart} onDrag={this.props.handleDrag} onStop={this.props.onDragStop}>
+                {card}
+            </Draggable>
+        )
+        return this.props.draggable === "false" ? card : draggableCard
     }
 }
 

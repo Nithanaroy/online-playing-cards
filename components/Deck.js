@@ -44,9 +44,10 @@ export default class Deck extends React.Component {
             <div style={{ position: "relative" }}>
                 <Card id="placeholderCard" style={{ visibility: "hidden" }} draggable="false" />
                 {this.state.cards.map(card => {
-                    return (<Card state="show" key={card} id={`card${card}`}
-                        cardIndex={card % this.cardsPerDeck}
-                        style={{ position: "absolute", top: 0, left: 0 }}></Card>)
+                    return (
+                        <Card state="show" key={card} id={`card${card}`}
+                            cardIndex={card % this.cardsPerDeck} onDragStop={this.props.onCardDragStop}
+                            style={{ position: "absolute", top: 0, left: 0 }}></Card>)
                 })}
             </div>
         )
