@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Stage from "./stage"
+import Client from "./client"
 
 // import styles from '../styles/Home.module.css'
 
@@ -11,9 +12,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stage></Stage>
-      <footer>
-        
-      </footer>
+      <Client></Client>
+      <footer></footer>
     </div>
   )
 }

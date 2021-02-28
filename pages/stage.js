@@ -11,7 +11,7 @@ export default class Stage extends React.Component {
         this.state = {
             currentUserId: "Nitin",
             ownerships: {},
-            players: ["Nitin", "Atasi", "AG", "MG"]
+            remotePlayers: ["Atasi", "AG", "MG"]
         }
     }
 
@@ -24,11 +24,12 @@ export default class Stage extends React.Component {
     }
 
     findOwnerOfRegion = (cardRef) => {
-        for (const player of this.state.players) {
-            const playerRegion = document.getElementById(player).getBoundingClientRect();
+        const allOwners = [...this.state.remotePlayers, this.state.currentUserId]
+        for (const owner of allOwners) {
+            const ownerRegion = document.getElementById(owner).getBoundingClientRect();
             const cardRegion = cardRef.getBoundingClientRect();
-            if (this.checkIfCardInRegion(cardRegion, playerRegion)) {
-                return player;
+            if (this.checkIfCardInRegion(cardRegion, ownerRegion)) {
+                return owner;
             }    
         }
     }
@@ -54,11 +55,17 @@ export default class Stage extends React.Component {
     }
 
     render() {
-        const remotePlayers = this.state.players.filter(p => p !== this.state.currentUserId)
         return (
-            <div style={{ "display": "flex", "flexDirection": "row", "flexGrow": 1 }}>
+            <div id="play-area" style={{ "display": "flex", "flexDirection": "row", "flexGrow": 1 }}>
                 <div style={{ "flexGrow": 1, "display": "flex", "flexDirection": "column" }}>
-                    <h1>Your room ID: 2344</h1>
+                    <div>
+                        <h1>Your room ID: 2344</h1>
+                        <div>
+                            <label htmlFor="currentUserTb">Current User</label>
+                            <input type="text" name="currentUserTb" id="currentUserTb" value={this.state.currentUserId} 
+                                onChange={(e) => this.setState({currentUserId: e.target.value}) } />
+                        </div>
+                    </div>
                     <div style={{ "display": "flex", "width": "100%", "flexGrow": 1 }}>
                         <Deck numDecks="1" onCardDragStop={this.assignOwner}></Deck>
                         <GameMat style={{ "flexGrow": 1 }}></GameMat>
@@ -66,7 +73,7 @@ export default class Stage extends React.Component {
                     <CurrentPlayer id={this.state.currentUserId} name={this.state.currentUserId} cards={this.cardsOfUser(this.state.currentUserId)}></CurrentPlayer>
                 </div>
                 <div style={{ "display": "flex", "flexDirection": "column", "minWidth": "150px" }}>
-                    {remotePlayers.map(p => {
+                    {this.state.remotePlayers.map(p => {
                         return (
                             <RemotePlayer key={p} name={p} id={p} style={{"flexGrow": 1}}></RemotePlayer>
                         )
